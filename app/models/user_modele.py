@@ -10,6 +10,7 @@ class User(Base):
     lastName = Column(String(50))
     email = Column(String(100), unique=True)
     password = Column(String(255))
+    role = Column(String(50))
 
 
 Base.metadata.create_all(bind=engine)
