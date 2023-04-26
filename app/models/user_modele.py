@@ -6,10 +6,10 @@ from db.database import Base, engine
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-    name = Column(String(50))
-    surname = Column(String(50))
-    password_hash = Column(String(255))
-    job = Column(String(100))
+    firstName = Column(String(50))
+    lastName = Column(String(50))
+    email = Column(String(100), unique=True)
+    password = Column(String(255))
 
 
 Base.metadata.create_all(bind=engine)
