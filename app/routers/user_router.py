@@ -5,10 +5,10 @@ from cryptography.fernet import Fernet
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from passlib.hash import bcrypt
-# System Imports
 # Local Imports
-from db.database import session
+from db.database import get_session
 from models.user_modele import User
+# System Imports
 
 
 router = APIRouter()
@@ -25,17 +25,6 @@ class UserCreate(BaseModel):
     email: str
     password: str
     role: str
-# Dependency
-
-
-def get_session():
-    """
-     Get a session for use in tests. This is a context manager that can be used to make sure that the session is closed when the context exits
-    """
-    try:
-        yield session
-    finally:
-        session.close()
 
 
 def encrypt_fields(firstName: str, lastName: str, email: str) -> tuple:

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Sequence
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -9,6 +9,17 @@ engine = create_engine(
 
 # Créer une session pour interagir avec la base de données
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-session = Session()
+
 
 Base = declarative_base()
+
+
+def get_session() -> Session:
+    """
+     Get a session for use in tests. This is a context manager that can be used to make sure that the session is closed when the context exits
+    """
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()
