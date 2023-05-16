@@ -1,6 +1,7 @@
+# Libs Imports
 from sqlalchemy import Column, Integer, String, Sequence
 from db.database import Base, engine
-# Définir le modèle de données pour l'utilisateur
+from sqlalchemy.orm import relationship
 
 
 class User(Base):
@@ -11,6 +12,9 @@ class User(Base):
     email = Column(String(100), unique=True)
     password = Column(String(255))
     role = Column(String(50))
+
+    # Relationship with the Company model
+    companies = relationship("Company", back_populates="user")
 
 
 Base.metadata.create_all(bind=engine)
