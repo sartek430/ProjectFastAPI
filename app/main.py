@@ -22,5 +22,5 @@ app.include_router(user_router.router,
                    responses=custom_reponses, tags=["users"])
 app.include_router(auth.router, tags=["auth"], responses=custom_reponses)
 
-# Créer la table des utilisateurs
+# Création des tables
 Base.metadata.create_all(bind=engine)

@@ -15,6 +15,3 @@ class User(Base):
 
     # Relationship with the Company model
     companies = relationship("Company", back_populates="user")
-
-
-Base.metadata.create_all(bind=engine)
