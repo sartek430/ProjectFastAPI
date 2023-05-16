@@ -1,5 +1,7 @@
+# libs import
 from fastapi import FastAPI
-from routers import test_router, user_router
+# Local Imports
+from routers import user_router, company_router
 from db.database import engine, Base
 from internal import auth
 
@@ -16,11 +18,12 @@ custom_reponses = {
 
 }
 
-app.include_router(test_router.router,
-                   responses=custom_reponses)
 app.include_router(user_router.router,
                    responses=custom_reponses, tags=["users"])
 app.include_router(auth.router, tags=["auth"], responses=custom_reponses)
+
+app.include_router(company_router.router, tags=[
+                   "company"], responses=custom_reponses)
 
 # Création des tables
 Base.metadata.create_all(bind=engine)

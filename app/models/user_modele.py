@@ -1,6 +1,6 @@
 # Libs Imports
 from sqlalchemy import Column, Integer, String, Sequence
-from db.database import Base, engine
+from db.database import Base
 from sqlalchemy.orm import relationship
 
 

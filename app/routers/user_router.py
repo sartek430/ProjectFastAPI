@@ -68,14 +68,10 @@ async def get_users(session: Session = Depends(get_session)):
 
      @return list of founded user(s)
     """
-    """
-     Retourne tous les utilisateurs
-     @return liste des utilisateurs trouvés
-    """
     users = session.query(User).all()
     # Aucun utilisateur trouvés
     if not users:
-        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT,
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Aucun utilisateur trouvé")
     return users
 
@@ -169,7 +165,7 @@ async def delete_user(user_id: int, session: Session = Depends(get_session)):
     Delete a user from the database. This is a no - op if the user doesn't exist
 
     @param user_id - id of the user to delete
-    @param session - session to use for database operations. Defaults to Depends
+    @param session - session to use for database operations.
 
     @return success or error message
     """
@@ -191,7 +187,7 @@ async def update_user(user_id: int, user_update: UserCreate, session: Session = 
 
      @param user_id - id of the user to update
      @param user_update - User object with new information to update
-     @param session - Session to use for database operations. Defaults to Depends
+     @param session - Session to use for database operations.
 
      @return Returns a dictionary with the result of the request
     """
