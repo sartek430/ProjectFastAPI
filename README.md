@@ -7,16 +7,36 @@ Cette application FastAPI est un exemple de base pour une application Web utilis
 L'application comprend les éléments suivants :
 
 - **Modèles de données** : Les modèles de données définissent la structure des tables de la base de données. Les modèles inclus dans cette application sont :
+
   - `User` : Représente un utilisateur avec des attributs tels que `firstName`, `lastName`, `email`, `password` et `role`.
-    - Exemple de jeu de données :
-      - username: "john_doe", password: "password123", role: "user"
+
+    |   firstName  |  lastName   |     email       |    password    |    role    |
+    |--------------|-------------|-----------------|----------------|------------|
+    |    John      |    Doe      | john@example.com |   password123  |   user     |
+
   - `Company` : Représente une entreprise liée à un utilisateur avec des attributs tels que `name`, `address` et une clé étrangère `fk_user` pour référencer l'utilisateur propriétaire.
-    - Exemple de jeu de données :
-      - name: "Company A", address: "123 Main St", fk_user: 1
-  - `Planning` : Représente un planning avec des attributs tels que `day`.
-  - `Activity` : Représente une activité liée à un planning avec des attributs tels que `start_time` et `end_time`.
+
+    |     name      |    address   |    fk_user    |
+    |---------------|--------------|---------------|
+    |   Company A   | 123 Main St  |      1        |
+    |   Company B   | 456 Oak St   |      1        |
+
+  - `Planning` : Représente un planning avec des attributs tels que `day`, `start_time` et `end_time`.
+
+    |      day      | start_time  |  end_time   |
+    |---------------|-------------|-------------|
+    |    2023-05-17 |  09:00 AM   |   10:00 AM  |
+    |    2023-05-18 |  02:00 PM   |   04:00 PM  |
+
+  - `Activity` : Représente une activité liée à un planning avec des attributs tels que `name` et une clé étrangère `fk_planning` pour référencer le planning.
+
+    |     name      |  fk_planning |
+    |---------------|--------------|
+    |   Activity A  |      1       |
+    |   Activity B  |      2       |
 
 - **Routes API** : L'application expose plusieurs routes API pour effectuer des opérations CRUD (Create, Read, Update, Delete) sur les modèles de données. Les principales routes API incluses sont :
+
   - `/users` : Gère les opérations sur les utilisateurs.
   - `/companies` : Gère les opérations sur les entreprises.
   - `/plannings` : Gère les opérations sur les plannings.
@@ -36,7 +56,9 @@ Avant de lancer l'application, assurez-vous d'avoir les éléments suivants inst
 1. Clonez ce dépôt sur votre machine locale :
 
    ```bash
-   git clone https://github.com/sartek430/ProjectFastAPI.git
+   git clone https://github.com/sart
+
+ek430/ProjectFastAPI.git
    ```
 
 2. Accédez au répertoire du projet :
