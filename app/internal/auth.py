@@ -57,7 +57,7 @@ async def authenticate_user(email: str, password: str):
     if not user:
         return False
     # Returns True if the password is valid and the user has a hashed password.
-    if not await verify_password(password, user["hashed_password"]):
+    if not await verify_password(password, user["password"]):
         return False
     return user
 
@@ -73,8 +73,12 @@ def create_access_token(data: dict, expires_delta: timedelta):
     """
     to_encode = data.copy()
     expire = datetime.utcnow() + expires_delta
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    expire_str = expire.strftime("%Y-%m-%dT%H:%M:%S")
+    to_encode.update({"exp": expire_str})
+    print(to_encode)
+    print(SECRET_KEY)
+    encoded_jwt = jwt.encode(
+        to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -88,7 +92,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordReq
      @return OAuth2 access token and token type
     """
     user = await authenticate_user(form_data.username, form_data.password)
-    print(user)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -97,7 +100,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordReq
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user["email"]},
+        data={"sub": user["id"]},
         expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}

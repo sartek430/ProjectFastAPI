@@ -107,6 +107,11 @@ async def update_planning(planning_id: int, planning_data: PlanningCreate, sessi
 
     @return the updated planning
     """
+    planning_data.start_time = datetime.strptime(
+        planning_data.start_time, "%H:%M:%S").time()
+    planning_data.end_time = datetime.strptime(
+        planning_data.end_time, "%H:%M:%S").time()
+
     planning = session.query(Planning).filter(
         Planning.id == planning_id).first()
     if not planning:

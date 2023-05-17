@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, Date, Time, Sequence
 from sqlalchemy.orm import relationship
 from db.database import Base
+from models.activity_modele import Activity
 
 
 class Planning(Base):
@@ -12,4 +13,4 @@ class Planning(Base):
     end_time = Column(Time)
 
     # Relationship with the Activity model
-    activities = relationship("Activity", back_populates="planning")
+    activities = relationship(Activity, back_populates="planning")
