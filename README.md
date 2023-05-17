@@ -88,3 +88,10 @@ uvicorn main:app --reload
 L'application sera alors accessible à l'adresse [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ---
+
+Pour vous connecter à l'application, utilisez les informations d'identification suivantes :
+
+- Email : `string`
+- Mot de passe : `string`
+
+Cet utilisateur a le rôle de `user`.
