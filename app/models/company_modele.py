@@ -9,7 +9,7 @@ class Company(Base):
 
     id = Column(Integer, Sequence('company_id_seq'), primary_key=True)
     name = Column(String(50))
-    fk_user = Column(Integer, ForeignKey("users.id"))
+    adress = Column(String(100))
 
     #  Relationship with the User model
     user = relationship("User", back_populates="companies")

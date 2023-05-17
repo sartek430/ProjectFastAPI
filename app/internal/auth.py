@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 # Local Imports
 from db.database import Session, get_session
 from routers.user_router import get_user
+from models.user_modele import User
 # System Imports
 
 router = APIRouter()
@@ -41,7 +42,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-async def authenticate_user(email: str, password: str):
+async def authenticate_user(email: str, password: str, session: Session = Depends(get_session)):
     """
      Authenticates a user by email and password. 
 
@@ -50,6 +51,8 @@ async def authenticate_user(email: str, password: str):
 
      @return True if the user was authenticated False otherwise.
     """
+    users = session.query(User).all()
+    print(users)
     user = await get_user(email)
     # Return True if user is not logged in.
     if not user:

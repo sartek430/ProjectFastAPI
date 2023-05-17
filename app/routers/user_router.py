@@ -16,8 +16,6 @@ router = APIRouter()
 key = b'S8nKUCy6kqF32UfD3NcJbS0VeXL4mADxe4xC4f7IJ7U='
 fernet = Fernet(key)
 
-# Définition du modèle Pydantic pour créer un nouvel utilisateur
-
 
 class UserCreate(BaseModel):
     firstName: str
@@ -25,6 +23,7 @@ class UserCreate(BaseModel):
     email: str
     password: str
     role: str
+    fk_company: int
 
 
 def encrypt_fields(firstName: str, lastName: str, email: str) -> tuple:
@@ -95,7 +94,6 @@ async def get_user(emailUser: str, session: Session = Depends(get_session)):
             if fernet.decrypt(email).decode() == emailUser:
                 findUser = True
                 user = users[i]
-                print(user)
         i += 1
 
     if findUser:
@@ -105,7 +103,8 @@ async def get_user(emailUser: str, session: Session = Depends(get_session)):
             "lastName": user.lastName,
             "email": user.email,
             "password": user.password,
-            "role": user.role
+            "role": user.role,
+            "fk_company": user.fk_company
         }
     else:
         raise HTTPException(
@@ -135,7 +134,7 @@ async def create_user(user: UserCreate, session: Session = Depends(get_session))
     hashed_password = bcrypt.hash(user.password)
 
     user = User(firstName=encrypted_firstName, lastName=encrypted_lastName, email=encrypted_email,
-                password=hashed_password, role=user.role)
+                password=hashed_password, role=user.role, fk_company=user.fk_company)
 
     try:
         session.add(user)
@@ -155,7 +154,8 @@ async def create_user(user: UserCreate, session: Session = Depends(get_session))
         "lastName": decrypted_lastName,
         "email": decrypted_email,
         "password": user.password,
-        "role": user.role
+        "role": user.role,
+        "fk_company": user.fk_company
     }
 
 
@@ -204,6 +204,7 @@ async def update_user(user_id: int, user_update: UserCreate, session: Session = 
     user.lastName = encrypted_lastName
     user.email = encrypted_email
     user.role = user_update.role
+    user.fk_company = user_update.fk_company
 
     session.commit()
 

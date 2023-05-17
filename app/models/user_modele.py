@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, Sequence
 from db.database import Base
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, ForeignKey, Sequence
 
 
 class User(Base):
@@ -12,6 +13,7 @@ class User(Base):
     email = Column(String(100), unique=True)
     password = Column(String(255))
     role = Column(String(50))
+    fk_company = Column(Integer, ForeignKey("companies.id"))
 
     # Relationship with the Company model
-    companies = relationship("Company", back_populates="user")
+    companies = relationship("Company", back_populates="users")
