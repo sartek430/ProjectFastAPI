@@ -56,9 +56,7 @@ Avant de lancer l'application, assurez-vous d'avoir les éléments suivants inst
 1. Clonez ce dépôt sur votre machine locale :
 
    ```bash
-   git clone https://github.com/sart
-
-ek430/ProjectFastAPI.git
+   git clone https://github.com/sartek430/ProjectFastAPI.git
    ```
 
 2. Accédez au répertoire du projet :
