@@ -16,4 +16,4 @@ class User(Base):
     fk_company = Column(Integer, ForeignKey("companies.id"))
 
     # Relationship with the Company model
-    companies = relationship("Company", back_populates="users")
+    company = relationship("Company", back_populates="users")

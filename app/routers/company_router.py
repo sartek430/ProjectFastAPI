@@ -60,9 +60,52 @@ async def create_company(company: CompanyCreate, session: Session = Depends(get_
     """
     new_company = Company(
         name=company.name,
-        fk_user=company.fk_user
+        adress=company.adress
     )
     session.add(new_company)
     session.commit()
     session.refresh(new_company)
     return new_company
+
+
+@router.delete("/companies/{company_id}")
+async def delete_company(company_id: int, session: Session = Depends(get_session)):
+    """
+    Delete a company by ID
+
+    @param company_id - ID of the company to delete
+    @param session - SQLAlchemy session to use for database operations
+
+    @return message indicating success or failure
+    """
+    company = session.query(Company).filter(Company.id == company_id).first()
+    if not company:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="Entreprise non trouvée")
+
+    session.delete(company)
+    session.commit()
+    return {"message": "Entreprise supprimée avec succès"}
+
+
+@router.put("/company/{company_id}")
+async def update_company(company_id: int, company_data: CompanyCreate, session: Session = Depends(get_session)):
+    """
+    Update a company by ID
+
+    @param company_id - ID of the company to update
+    @param company_data - CompanyCreate object containing the updated details of the company
+    @param session - SQLAlchemy session to use for database operations
+
+    @return the updated company
+    """
+    company = session.query(Company).filter(Company.id == company_id).first()
+    if not company:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="Entreprise non trouvée")
+
+    company.name = company_data.name
+    company.adress = company_data.adress
+    session.commit()
+    session.refresh(company)
+    return company

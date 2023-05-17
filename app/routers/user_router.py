@@ -75,16 +75,7 @@ async def get_users(session: Session = Depends(get_session)):
     return users
 
 
-@router.get("/user/{emailUser}")
-async def get_user(emailUser: str, session: Session = Depends(get_session)):
-    """
-    Get a user by email.
-
-    @param email - Email address of the user to retrieve
-    @param session - SQLAlchemy session to use for database operations
-
-    @return The user as JSON (dict) or HTTPException with status code 404 if the user is not found
-    """
+async def inner_get_user(emailUser: str, session: Session):
     findUser = False
     users = session.query(User).all()
     i = 0
@@ -109,6 +100,19 @@ async def get_user(emailUser: str, session: Session = Depends(get_session)):
     else:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Utilisateur non trouvé")
+
+
+@router.get("/user/{emailUser}")
+async def get_user(emailUser: str, session: Session = Depends(get_session)):
+    """
+    Get a user by email.
+
+    @param email - Email address of the user to retrieve
+    @param session - SQLAlchemy session to use for database operations
+
+    @return The user as JSON (dict) or HTTPException with status code 404 if the user is not found
+    """
+    return await inner_get_user(emailUser, session)
 
 
 @router.post("/user")

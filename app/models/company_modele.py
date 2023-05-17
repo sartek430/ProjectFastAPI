@@ -1,5 +1,5 @@
 # Libs Imports
-from sqlalchemy import Column, Integer, String, ForeignKey, Sequence
+from sqlalchemy import Column, Integer, String, Sequence
 from db.database import Base
 from sqlalchemy.orm import relationship
 
@@ -12,4 +12,4 @@ class Company(Base):
     adress = Column(String(100))
 
     #  Relationship with the User model
-    user = relationship("User", back_populates="companies")
+    users = relationship("User", back_populates="company")

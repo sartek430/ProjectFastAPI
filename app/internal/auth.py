@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 # Local Imports
 from db.database import Session, get_session
-from routers.user_router import get_user
+from routers.user_router import inner_get_user
 from models.user_modele import User
 # System Imports
 
@@ -42,7 +42,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-async def authenticate_user(email: str, password: str, session: Session = Depends(get_session)):
+async def authenticate_user(email: str, password: str):
     """
      Authenticates a user by email and password. 
 
@@ -51,9 +51,8 @@ async def authenticate_user(email: str, password: str, session: Session = Depend
 
      @return True if the user was authenticated False otherwise.
     """
-    users = session.query(User).all()
-    print(users)
-    user = await get_user(email)
+    for session in get_session():
+        user = await inner_get_user(email, session)
     # Return True if user is not logged in.
     if not user:
         return False
@@ -89,6 +88,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordReq
      @return OAuth2 access token and token type
     """
     user = await authenticate_user(form_data.username, form_data.password)
+    print(user)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
