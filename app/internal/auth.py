@@ -62,6 +62,25 @@ async def authenticate_user(email: str, password: str):
     return user
 
 
+def decode_access_token(token: str):
+    """
+    Decode an access token and retrieve the data.
+
+    @param token - The access token to decode.
+
+    @return The decoded token data.
+    """
+    try:
+        decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return decoded_token
+    except jwt.JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
 def create_access_token(data: dict, expires_delta: timedelta):
     """
      Create an access token for the given data.

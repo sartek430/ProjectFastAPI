@@ -8,7 +8,11 @@ L'application comprend les éléments suivants :
 
 - **Modèles de données** : Les modèles de données définissent la structure des tables de la base de données. Les modèles inclus dans cette application sont :
   - `User` : Représente un utilisateur avec des attributs tels que `firstName`, `lastName`, `email`, `password` et `role`.
+    - Exemple de jeu de données :
+      - username: "john_doe", password: "password123", role: "user"
   - `Company` : Représente une entreprise liée à un utilisateur avec des attributs tels que `name`, `address` et une clé étrangère `fk_user` pour référencer l'utilisateur propriétaire.
+    - Exemple de jeu de données :
+      - name: "Company A", address: "123 Main St", fk_user: 1
   - `Planning` : Représente un planning avec des attributs tels que `day`.
   - `Activity` : Représente une activité liée à un planning avec des attributs tels que `start_time` et `end_time`.
 
@@ -64,4 +68,3 @@ uvicorn main:app --reload
 L'application sera alors accessible à l'adresse [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ---
-
